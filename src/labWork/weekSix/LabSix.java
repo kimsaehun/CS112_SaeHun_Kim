@@ -14,7 +14,7 @@ public class LabSix {
 		Scanner scan = new Scanner(System.in);
 		String[] moves = { "ROCK", "PAPER", "SCISSORS", "ROCK" };
 		String yourMove;
-		int numPlays, compWins = 0, userWins = 0, requiredWins = 999999999;
+		int numPlays, compWins = 0, userWins = 0, requiredWins = -1;
 		boolean cannotSpell = false;
 
 		System.out.println("****************************************");
