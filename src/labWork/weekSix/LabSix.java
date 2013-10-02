@@ -15,7 +15,6 @@ public class LabSix {
 		String[] moves = { "ROCK", "PAPER", "SCISSORS", "ROCK" };
 		String yourMove;
 		int numPlays, compWins = 0, userWins = 0, requiredWins = 999999999;
-		boolean yourALoser = false;
 		boolean cannotSpell = false;
 
 		System.out.println("****************************************");
