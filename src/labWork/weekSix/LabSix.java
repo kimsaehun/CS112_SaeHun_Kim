@@ -26,9 +26,8 @@ public class LabSix {
 		System.out.println("****************************************");
 		for (int i = 0; i < numPlays; i++) {
 			int plays = numPlays;
-			if (plays % 2 == 1) {
-				requiredWins = plays / 2 + 1;
-			}
+			requiredWins = plays / 2 + 1;
+
 			System.out.println("\nROUND " + (i + 1));
 			do {
 				System.out
