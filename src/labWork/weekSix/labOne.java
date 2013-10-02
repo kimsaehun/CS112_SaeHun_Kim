@@ -24,7 +24,7 @@ public class labOne {
 		} else if (greater) {
 			System.out.println("Your number was too high!");
 		} else {
-			System.out.println("Your nuber was too low!");
+			System.out.println("Your number was too low!");
 		}
 	}
 }
