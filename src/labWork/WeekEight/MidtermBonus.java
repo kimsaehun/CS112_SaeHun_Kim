@@ -1,3 +1,8 @@
+/*
+ * Sae Hun Kim
+ * CS 112
+ * Midterm Bonus
+ */
 package labWork.WeekEight;
 
 import java.util.Scanner;
