@@ -13,7 +13,7 @@ public class MidtermBonus {
 		int N = scan.nextInt();
 		int M = 1;
 		int F = 1;
-		for (M=M; M <= N; ++M) {
+		for (; M <= N; ++M) {
 			F *= M;
 		}
 		System.out.print(F);
