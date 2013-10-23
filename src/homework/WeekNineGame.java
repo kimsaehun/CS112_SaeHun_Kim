@@ -16,22 +16,39 @@ public class WeekNineGame {
 		boolean playing = true;
 		int round = 1, wins = 0, ties = 0;
 		String ans;// used to store input of a string
-		int ansInt;// used to store input of an int
+		int ansInt = 0;// used to store input of an int
 		boolean invalid = true;// used to check the input
 		ArrayList<Integer> guesses = new ArrayList<Integer>(); // keeps track of
 																// guesses
 
 		System.out.println("Lets play a game with a dice where you guess "
 				+ "the number rolled!");
-		System.out.println("Do you want to create your own custom die "
+		System.out.print("Do you want to create your own custom die "
 				+ "(default is 6 sides), y/n?: ");
 		if (scan.nextLine().toLowerCase().charAt(0) == 'y') {
 			System.out.println("How many sides do you want on the die?\n"
-					+ "Enter a number: ");
-			die = new WeekNineDice(scan.nextInt());
-			scan.nextLine();// remove the enter key
+					+ "Enter a digit: ");
+			while (invalid) {
+				System.out.println("Guess what number was rolled: ");
+				try {
+					ansInt = scan.nextInt();
+					if (ansInt < 1) {
+						System.out.print("Invalid input. Enter a digit"
+								+ " greater than or equal to 1: ");
+					} else {
+						invalid = false;
+					}
+				} catch (InputMismatchException e) {
+					System.out.print("Invalid input. Enter a digit"
+							+ " greater than or equal to 1: ");
+				}
+			}
+			// clean up after the input checking process
+			scan.nextLine();// clear the enter key
+			invalid = true;
+			die = new WeekNineDice(ansInt);
 		} else {
-			System.out.println("You choose the default 6 sided die.");
+			System.out.println("You chose the default 6 sided die.");
 			die = new WeekNineDice();
 		}
 
@@ -40,18 +57,25 @@ public class WeekNineGame {
 			System.out.println("ROUND " + round + " START");
 			System.out.println("The dice was rolled!");
 			while (invalid) {
-				System.out.println("Guess what number it rolled: ");
+				System.out.println("Guess what number was rolled: ");
 				try {
 					ansInt = scan.nextInt();
 					if (ansInt < 1 || ansInt > die.getSides()) {
 						System.out.println("Invalid input. Enter a digit "
 								+ "between 1 and " + die.getSides());
+					} else {
+						invalid = false;
 					}
 				} catch (InputMismatchException e) {
-
+					System.out.println("Invalid input. Enter a digit "
+							+ "between 1 and " + die.getSides());
 				}
 			}
+			// clean up after the input checking process
 			scan.nextLine();// clear the enter key
+			invalid = true;
+			guesses.add(ansInt);
+
 			die.guess();
 			System.out.println("The computer guessed a "
 					+ die.getGuesses(round - 1));// round - 1 because the array
@@ -99,9 +123,9 @@ public class WeekNineGame {
 		System.out.println("Number of ties: " + ties);
 		System.out.println("Player wins: " + wins);
 		System.out.printf("Player win percentage: %%%.2f\n",
-				(float) (wins / round) * 100);
+				((float) wins / round) * 100);
 		System.out.println("Computer wins: " + die.getWins());
 		System.out.printf("Computer win percentage: %%%.2f\n",
-				(float) (die.getWins() / round) * 100);
+				((float) die.getWins() / round) * 100);
 	}
 }

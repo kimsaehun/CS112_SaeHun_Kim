@@ -9,7 +9,6 @@ public class LabTester {
 	public static void main(String[] args) {
 		LabOneOddOrEven o1 = new LabOneOddOrEven();
 		LabTwoOddOrEven o2 = new LabTwoOddOrEven();
-		LabFourOddOrEven o4 = new LabFourOddOrEven();
 
 		// lab 1
 		System.out.println("Lab One");
@@ -25,5 +24,9 @@ public class LabTester {
 		System.out.println("\nLab Three");
 		LabThreeOddOrEven o3 = new LabThreeOddOrEven(5);
 		System.out.println(o3.oddEven());
+		// lab 4
+		System.out.println("\nLab Four");
+		LabFourOddOrEven o4 = new LabFourOddOrEven();
+		System.out.println(o4.oddEven());
 	}
 }
