@@ -16,5 +16,11 @@ public class LabTester {
 		System.out.println("Lab One");
 		o1.odd();
 		o1.even();
+		// lab 2
+		System.out.println("\nLab Two");
+		o2.setValue(9);
+		System.out.println(o2.oddEven());
+		o2.setValue(2);
+		System.out.println(o2.oddEven());
 	}
 }

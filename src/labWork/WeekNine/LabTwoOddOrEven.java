@@ -13,7 +13,11 @@ public class LabTwoOddOrEven {
 	}
 
 	public String oddEven() {
-		return "Odd or Even";
+		if (m_val % 2 == 0) {
+			return "Even";
+		} else {
+			return "Odd";
+		}
 	}
 
 	public void odd() {

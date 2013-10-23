@@ -9,7 +9,7 @@ package labWork.WeekNine;
 
 import java.util.Scanner;
 
-public class OddOrEvenGame {
+public class LabFiveOddOrEvenGame {
 	public static void main(String[] args) {
 		LabFourOddOrEven ran = new LabFourOddOrEven();// using the
 														// lab four odd or even
