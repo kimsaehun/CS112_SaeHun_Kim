@@ -13,6 +13,7 @@ public class WeekNineDice {
 	private int sides;// number of sides on the die
 	private int num;// the number that was rolled
 	private int wins = 0;
+	private int losses = 0;
 
 	// used to store computer's guesses
 	private ArrayList<Integer> guesses = new ArrayList<Integer>();
@@ -54,5 +55,13 @@ public class WeekNineDice {
 
 	public int getWins() {
 		return wins;
+	}
+
+	public void lose() {
+		losses++;
+	}
+
+	public int getLosses() {
+		return losses;
 	}
 }

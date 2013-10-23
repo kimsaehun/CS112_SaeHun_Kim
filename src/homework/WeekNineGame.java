@@ -14,7 +14,7 @@ public class WeekNineGame {
 		WeekNineDice die;
 		Scanner scan = new Scanner(System.in);
 		boolean playing = true;
-		int round = 1, wins = 0, ties = 0;
+		int round = 1, wins = 0, losses = 0, ties = 0;
 		String ans;// used to store input of a string
 		int ansInt = 0;// used to store input of an int
 		boolean invalid = true;// used to check the input
@@ -23,13 +23,21 @@ public class WeekNineGame {
 
 		System.out.println("Lets play a game with a dice where you guess "
 				+ "the number rolled!");
+
 		System.out.print("Do you want to create your own custom die "
 				+ "(default is 6 sides), y/n?: ");
-		if (scan.nextLine().toLowerCase().charAt(0) == 'y') {
+		ans = scan.nextLine();// check input
+		while (!(ans.toLowerCase().charAt(0) == 'y' || ans.toLowerCase()
+				.charAt(0) == 'n')) {
+			System.out.println("Invalid input. Try again.");
+			System.out.print("Do you want to create your own custom die "
+					+ "(default is 6 sides), y/n?: ");
+			ans = scan.nextLine();
+		}
+		if (ans.toLowerCase().charAt(0) == 'y') {
 			System.out.println("How many sides do you want on the die?\n"
 					+ "Enter a digit: ");
 			while (invalid) {
-				System.out.println("Guess what number was rolled: ");
 				try {
 					ansInt = scan.nextInt();
 					if (ansInt < 1) {
@@ -89,6 +97,7 @@ public class WeekNineGame {
 					wins++;
 				} else {
 					System.out.println("Bzzz! You got it wrong!");
+					losses++;
 				}
 				if (die.getGuesses(round - 1) == die.getNum()) {
 					System.out.println("The computer got it correct!");
@@ -102,7 +111,7 @@ public class WeekNineGame {
 				ties++;
 			}
 
-			System.out.print("Play again, y/n? ");
+			// replay
 			System.out.print("Do you want to play again, y/n? ");
 			ans = scan.nextLine();
 			while (!(ans.toLowerCase().charAt(0) == 'y' || ans.toLowerCase()
@@ -117,14 +126,50 @@ public class WeekNineGame {
 			} else {
 				playing = false;
 			}
+
+			// change dice?
+			System.out.print("Do you want to change the die, y/n? ");
+			ans = scan.nextLine();// check input
+			while (!(ans.toLowerCase().charAt(0) == 'y' || ans.toLowerCase()
+					.charAt(0) == 'n')) {
+				System.out.println("Invalid input. Try again.");
+				System.out.print("Do you want to create your own custom die "
+						+ "(default is 6 sides), y/n?: ");
+				ans = scan.nextLine();
+			}
+			if (ans.toLowerCase().charAt(0) == 'y') {
+				System.out.println("How many sides do you want on the die?\n"
+						+ "Enter a digit: ");
+				while (invalid) {
+					try {
+						ansInt = scan.nextInt();
+						if (ansInt < 1) {
+							System.out.print("Invalid input. Enter a digit"
+									+ " greater than or equal to 1: ");
+						} else {
+							invalid = false;
+						}
+					} catch (InputMismatchException e) {
+						System.out.print("Invalid input. Enter a digit"
+								+ " greater than or equal to 1: ");
+					}
+				}
+				// clean up after the input checking process
+				scan.nextLine();// clear the enter key
+				invalid = true;
+				die = new WeekNineDice(ansInt);
+			}
+
 		}// end of game
 		System.out.println("Here are the results");
 		System.out.println("Number of rounds played: " + round);
 		System.out.println("Number of ties: " + ties);
 		System.out.println("Player wins: " + wins);
+		System.out.println("Player losses: " + losses);
 		System.out.printf("Player win percentage: %%%.2f\n",
 				((float) wins / round) * 100);
 		System.out.println("Computer wins: " + die.getWins());
+		System.out.println("Computer losses: " + die.getLosses());
 		System.out.printf("Computer win percentage: %%%.2f\n",
 				((float) die.getWins() / round) * 100);
 	}
