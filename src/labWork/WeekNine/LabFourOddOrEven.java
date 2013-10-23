@@ -16,16 +16,20 @@ public class LabFourOddOrEven {
 		m_val = arg0;
 	}
 
-	public void setValue(int arg0) {
-		m_val = arg0;
-	}
-
 	public int getValue() {// added for use in Lab 5
 		return m_val;
 	}
 
+	public void setValue(int arg0) {
+		m_val = arg0;
+	}
+
 	public String oddEven() {
-		return "Odd or Even";
+		if (m_val % 2 == 0) {
+			return "Even";
+		} else {
+			return "Odd";
+		}
 	}
 
 	public void odd() {
