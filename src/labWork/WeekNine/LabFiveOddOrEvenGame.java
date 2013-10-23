@@ -11,9 +11,7 @@ import java.util.Scanner;
 
 public class LabFiveOddOrEvenGame {
 	public static void main(String[] args) {
-		LabFourOddOrEven ran = new LabFourOddOrEven();// using the
-														// lab four odd or even
-														// class
+		LabFourOddOrEven ran;// using the lab four odd or even class
 		int round = 1;
 		Scanner scan = new Scanner(System.in);
 		boolean playing = true, cWins, uWins;
@@ -23,7 +21,7 @@ public class LabFiveOddOrEvenGame {
 		int[] cpuGuesses = new int[100];
 		System.out.println("Guess whether the random number is odd or even!");
 		while (playing) {
-			ran.setValue((int) ((Math.random() * 2) + 1));
+			ran = new LabFourOddOrEven();
 			// generate computer guess and calculate if it got it right or not
 			cpuGuesses[round - 1] = (int) ((Math.random() * 2) + 1);
 			if (cpuGuesses[round - 1] == ran.getValue()) {
