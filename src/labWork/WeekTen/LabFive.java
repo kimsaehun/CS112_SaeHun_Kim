@@ -10,6 +10,10 @@ public class LabFive {
 	private int value, throwValue;
 	private static int oneValue;
 
+	public LabFive() {// bounces should = 1 for a default constructor
+		Throw(1);
+	}
+
 	public LabFive(int bounces) {// constructor. this would be the Dice(int
 									// bounces)
 		Throw(bounces);

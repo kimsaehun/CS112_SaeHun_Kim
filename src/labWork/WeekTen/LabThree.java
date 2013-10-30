@@ -9,6 +9,10 @@ package labWork.WeekTen;
 public class LabThree {
 	private int value, throwValue;
 
+	public LabThree() {//bounces should = 1 for a default constructor
+		Throw(1);
+	}
+
 	public LabThree(int bounces) {// constructor. this would be the Dice(int
 									// bounces)
 		Throw(bounces);
