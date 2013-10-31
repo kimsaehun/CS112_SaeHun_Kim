@@ -9,7 +9,7 @@ package homework;
 import java.util.ArrayList;
 
 public class WeekTenHomework {
-	private int value, throwValue, numOfThrows = 0;
+	private int value, throwValue, numOfThrows = 0, returnValue;
 	private static int oneValue;
 	private ArrayList<Integer> history = new ArrayList<Integer>();
 
@@ -36,30 +36,25 @@ public class WeekTenHomework {
 	}
 
 	public int Throw() {
-		numOfThrows++;
 		value = (int) ((Math.random() * 6) + 1);
-		history.add(value);
 		return value;
 	}
 
 	public int Throw(int bounces) {// get the average number from the dice being
 		// rolled bounces times
-		numOfThrows++;
 		int totalValueRolled = 0;
 		int numRolled = 0;
 		for (int i = 0; i < bounces; i++) {
-			Throw();
-			totalValueRolled += Value();
+			totalValueRolled += Throw();
 			numRolled++;
 		}
 		throwValue = totalValueRolled / numRolled;
-		history.add(throwValue);
 		return throwValue;
 	}
 
 	public int Throw(int dices, int bounces) {
 		numOfThrows++;
-		int returnValue = 0;
+		returnValue = 0;
 		for (int i = 0; i < dices; i++) {
 			returnValue += Throw(bounces);
 		}
@@ -82,5 +77,9 @@ public class WeekTenHomework {
 		for (int i = 0; i < history.size(); i++) {
 			System.out.print(history.get(i) + " ");
 		}
+	}
+
+	public int getReturnValue() {
+		return returnValue;
 	}
 }
