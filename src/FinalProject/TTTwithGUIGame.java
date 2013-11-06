@@ -16,8 +16,7 @@ public class TTTwithGUIGame {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		JPanel gameMap = game.setToGameMap();
-		frame.add(gameMap);
+		TTTwithGUI.setToGameMap(frame.getContentPane());
 		frame.pack();
 	}
 }
