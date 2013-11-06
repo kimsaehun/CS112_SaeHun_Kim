@@ -2,6 +2,7 @@
  * Sae Hun Kim
  * CS 112
  * Week 11 lab 5
+ * Triple Dice class
  */
 
 package labWork.WeekEleven;
