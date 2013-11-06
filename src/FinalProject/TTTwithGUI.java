@@ -37,7 +37,7 @@ public class TTTwithGUI {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = .5;
 		c.weighty = .5;
-		c.gridx = 0;
+		c.gridx = 3;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.CENTER;
 		pane.add(score, c);
@@ -52,21 +52,21 @@ public class TTTwithGUI {
 		JTextArea coordX1 = new JTextArea(" 1");
 		c.weightx = .5;
 		c.weighty = .5;
-		c.gridx = 2;
+		c.gridx = 1;
 		c.gridy = 1;
 		pane.add(coordX1, c);
 
 		JTextArea coordX2 = new JTextArea(" 2");
 		c.weightx = .5;
 		c.weighty = .5;
-		c.gridx = 4;
+		c.gridx = 3;
 		c.gridy = 1;
 		pane.add(coordX2, c);
 
 		JTextArea coordX3 = new JTextArea(" 3");
 		c.weightx = .5;
 		c.weighty = .5;
-		c.gridx = 6;
+		c.gridx = 5;
 		c.gridy = 1;
 		pane.add(coordX3, c);
 
@@ -104,6 +104,28 @@ public class TTTwithGUI {
 				}
 			}
 		}
+	}
 
+	public JPanel printMap() {
+		JPanel gPanel = new JPanel();
+		gPanel.setBackground(Color.WHITE);
+		gPanel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		for (int row = 0; row < map.length; row++) {
+			c.weightx = .5;
+			c.weighty = .5;
+			for (int col = 1; col < map[row].length + 1; col++) {
+				c.weightx = .5;
+				c.weighty = .5;
+				c.gridx = col;
+				c.gridy = row;
+				if (map[row][col - 1] == 's') {
+					pane.add(new JButton(), c);
+				} else {
+					pane.add(new JTextArea(" " + map[row][col - 1] + " "), c);
+				}
+			}
+		}
+		return new JPanel();
 	}
 }

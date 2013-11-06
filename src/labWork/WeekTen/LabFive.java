@@ -7,11 +7,13 @@
 package labWork.WeekTen;
 
 public class LabFive {
-	private int value, throwValue;
+	private int value, throwValue, dices, bounces;
 	private static int oneValue;
 
 	public LabFive() {// bounces should = 1 for a default constructor
 		value = Throw(1);
+		dices = 1;
+		bounces = 1;
 	}
 
 	/*
@@ -19,8 +21,16 @@ public class LabFive {
 	 * 
 	 * // bounces) Throw(bounces); }
 	 */
-	public LabFive(int dices) {// changed for lab 6 of week 11
-		value = Throw(dices, 1);
+	public LabFive(int d) {// changed for lab 6 of week 11
+		dices = d;
+		bounces = 1;
+		value = Throw(d, bounces);
+	}
+
+	@Override
+	public String toString() {// for lab 7 of week 11
+		return "Num of dices: " + dices + "\nNum of bounces: " + bounces
+				+ "\nValue: " + Value();
 	}
 
 	public int getThrowValue() {

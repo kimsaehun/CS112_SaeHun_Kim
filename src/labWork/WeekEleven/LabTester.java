@@ -21,5 +21,10 @@ public class LabTester {
 		// lab 6 test
 		LabSix d6 = new LabSix();
 		System.out.println(d6.Value());
+
+		System.out.println();
+		// Lab 7 test
+		LabSeven d7 = new LabSeven();
+		System.out.println(d7);
 	}
 }
