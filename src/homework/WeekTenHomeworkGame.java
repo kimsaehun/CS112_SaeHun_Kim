@@ -1,7 +1,7 @@
 /*
  * Sae Hun Kim
  * Cs 112
- * Week ten lab 6
+ * Week ten homework dice game
  */
 
 package homework;

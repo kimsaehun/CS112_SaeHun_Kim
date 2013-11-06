@@ -1,7 +1,7 @@
 /*
  * Sae Hun Kim
  * Cs 112
- * Week ten homework
+ * Week ten homework dice class
  */
 
 package homework;
