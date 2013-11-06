@@ -16,5 +16,10 @@ public class LabTester {
 		// Lab 5 test
 		LabFive d5 = new LabFive();
 		System.out.println(d5.Throw());
+
+		System.out.println();
+		// lab 6 test
+		LabSix d6 = new LabSix();
+		System.out.println(d6.Value());
 	}
 }

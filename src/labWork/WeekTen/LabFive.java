@@ -11,12 +11,16 @@ public class LabFive {
 	private static int oneValue;
 
 	public LabFive() {// bounces should = 1 for a default constructor
-		Throw(1);
+		value = Throw(1);
 	}
 
-	public LabFive(int bounces) {// constructor. this would be the Dice(int
-									// bounces)
-		Throw(bounces);
+	/*
+	 * public LabFive(int bounces) {// constructor. this would be the Dice(int
+	 * 
+	 * // bounces) Throw(bounces); }
+	 */
+	public LabFive(int dices) {// changed for lab 6 of week 11
+		value = Throw(dices, 1);
 	}
 
 	public int getThrowValue() {

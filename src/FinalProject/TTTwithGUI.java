@@ -37,16 +37,38 @@ public class TTTwithGUI {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = .5;
 		c.weighty = .5;
+		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.CENTER;
 		pane.add(score, c);
 
-		JTextArea coordX = new JTextArea("          x: 1 2 3");
-		c.fill = GridBagConstraints.HORIZONTAL;
+		JTextArea coordX = new JTextArea("x:");
 		c.weightx = .5;
 		c.weighty = .5;
+		c.gridx = 0;
 		c.gridy = 1;
 		pane.add(coordX, c);
+
+		JTextArea coordX1 = new JTextArea(" 1");
+		c.weightx = .5;
+		c.weighty = .5;
+		c.gridx = 2;
+		c.gridy = 1;
+		pane.add(coordX1, c);
+
+		JTextArea coordX2 = new JTextArea(" 2");
+		c.weightx = .5;
+		c.weighty = .5;
+		c.gridx = 4;
+		c.gridy = 1;
+		pane.add(coordX2, c);
+
+		JTextArea coordX3 = new JTextArea(" 3");
+		c.weightx = .5;
+		c.weighty = .5;
+		c.gridx = 6;
+		c.gridy = 1;
+		pane.add(coordX3, c);
 
 		JTextArea coordY1 = new JTextArea("y:1");
 		c.weightx = .5;
@@ -70,15 +92,15 @@ public class TTTwithGUI {
 		pane.add(coordY3, c);
 
 		for (int row = 2; row < map.length + 2; row++) {
-			for (int col = 2; col < map[row - 2].length + 2; col++) {
+			for (int col = 1; col < map[row - 2].length + 1; col++) {
 				c.gridx = col;
 				c.gridy = row;
 				c.weightx = c.weighty = .5;
-				c.anchor = GridBagConstraints.CENTER;
-				if (map[row - 2][col - 2] == 's') {
+				if (map[row - 2][col - 1] == 's') {
 					pane.add(new JButton(), c);
 				} else {
-					pane.add(new JTextArea("" + map[row - 2][col - 2]), c);
+					pane.add(new JTextArea(" " + map[row - 2][col - 1] + " "),
+							c);
 				}
 			}
 		}
