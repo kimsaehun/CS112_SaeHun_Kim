@@ -11,7 +11,7 @@ public class LabFive {
 	private static int oneValue;
 
 	public LabFive() {// bounces should = 1 for a default constructor
-		value = Throw(1);
+		value = 0;
 		dices = 1;
 		bounces = 1;
 	}

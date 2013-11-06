@@ -26,5 +26,12 @@ public class LabTester {
 		// Lab 7 test
 		LabSeven d7 = new LabSeven();
 		System.out.println(d7);
+
+		System.out.println();
+		// Lab 8 test
+		LabEight d8 = new LabEight();
+		d8.Throw();
+		d8.Throw();
+		System.out.println(d8);
 	}
 }
