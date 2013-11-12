@@ -9,4 +9,8 @@ public class LabSeven extends labWork.WeekTen.LabFive {
 	public LabSeven() {
 		super();
 	}
+
+	public LabSeven(int dices) {
+		super(dices);
+	}
 }

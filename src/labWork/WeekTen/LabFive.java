@@ -54,8 +54,7 @@ public class LabFive {
 		int totalValueRolled = 0;
 		int numRolled = 0;
 		for (int i = 0; i < bounces; i++) {
-			Throw();
-			totalValueRolled += Value();
+			totalValueRolled += value = (int) ((Math.random() * 6) + 1);
 			numRolled++;
 		}
 		return (throwValue = totalValueRolled / numRolled);

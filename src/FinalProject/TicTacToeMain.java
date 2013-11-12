@@ -10,7 +10,7 @@ package FinalProject;
 
 import java.util.Scanner;
 
-public class TicTacToeGame {
+public class TicTacToeMain {
 	public static void main(String[] args) {
 		// constants are used as arguments for the method increment(arg0) in the
 		// TicTacToe class

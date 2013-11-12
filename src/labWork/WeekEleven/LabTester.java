@@ -33,5 +33,13 @@ public class LabTester {
 		d8.Throw();
 		d8.Throw();
 		System.out.println(d8);
+
+		System.out.println();
+		// homework 11 test
+		LabEight dH = new LabEight();
+		dH.Throw();
+		LabEight clone = dH.clone();
+		System.out.println(clone.equal(dH));
+		System.out.println(dH + "\n" + clone);
 	}
 }

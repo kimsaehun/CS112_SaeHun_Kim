@@ -2,6 +2,7 @@
  * Sae Hun Kim
  * Cs 112
  * Week ten lab 6
+ * also used for homework 11
  */
 
 package labWork.WeekTen;
@@ -9,10 +10,12 @@ package labWork.WeekTen;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class LabSix {
+import labWork.WeekEleven.LabEight;
+
+public class LabSix {// and Homework 11
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		LabFive dice;
+		LabEight dice;
 		boolean playing = true;
 		int round = 1, numOfDices, pWins = 0, pLosses = 0, cWins = 0, cLosses = 0, ties = 0;
 		ArrayList<Integer> pGuesses = new ArrayList<Integer>();
@@ -24,7 +27,7 @@ public class LabSix {
 		System.out.println("All dices have 6 values.");
 		System.out.print("How many dices do you want to play with? ");
 		// assumes input will be an integer
-		dice = new LabFive(numOfDices = scan.nextInt());
+		dice = new LabEight(numOfDices = scan.nextInt());
 		scan.nextLine();
 		System.out.println("Lets START!");
 		while (playing) {
