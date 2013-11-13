@@ -96,9 +96,6 @@ public class TTTwithGUI {
 		pane.removeAll();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 		pane.add(pPanel);
-
-		pPanel.validate();
-		pPanel.repaint();
 	}
 
 	public void setToGameMap(Container pane) {// shows the game map
