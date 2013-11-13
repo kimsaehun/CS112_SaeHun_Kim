@@ -6,7 +6,7 @@
 
 package labWork.WeekTwelve;
 
-public class DoubleDice extends LabOne {
+public class DoubleDice extends Dice {
 	public int value;
 
 	public DoubleDice() {
