@@ -7,6 +7,11 @@
 package labWork.WeekTwelve;
 
 public class TripleDice extends LabOne {
+	private int value;
+
+	public TripleDice() {
+		value = 3;
+	}
 
 	@Override
 	int Throw() {
@@ -15,6 +20,6 @@ public class TripleDice extends LabOne {
 
 	@Override
 	public String toString() {
-		return "TripleDice";
+		return "TripleDice value: " + value;
 	}
 }
