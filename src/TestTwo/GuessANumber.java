@@ -79,7 +79,7 @@ public class GuessANumber {
 		}// end of while(playing) loop
 
 		// print results
-		System.out.println("Rounds play: " + round);
+		System.out.println("Rounds played: " + round);
 		System.out.println("Your wins: " + userWin + "\tComputer wins: "
 				+ compWin + "\tNumber of ties: " + tie);
 		System.out.println(dice);
