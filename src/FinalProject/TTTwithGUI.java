@@ -8,7 +8,6 @@ package FinalProject;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,16 +15,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class TTTwithGUI {
-	private static char[][] map = { { 's', '|', 's', '|', 's' },
+public class TTTwithGUI extends JFrame {
+	private static int mode;
+	// list of modes
+	final int GAME = 0;
+	final int INTRO = 1;
+	final int ASK_MARK = 2;
+	final int WIN = 3;
+	final int LOSE = 4;
+	final int TIE = 5;
+	final int ASK_PLAY = 6;
+	final int END = 7;
+
+	private char[][] map = { { 's', '|', 's', '|', 's' },
 			{ 's', '|', 's', '|', 's' }, { 's', '|', 's', '|', 's' } };
-	private static int round = 0, playerScore = 0, compScore = 0;
+	private int round = 0, playerScore = 0, compScore = 0;
 	// arraylist to hold the coordinates of open spaces in the tic tac toe map
 	private ArrayList<Integer> availableMoves = new ArrayList<Integer>();
 	private char playerMark, compMark;
@@ -38,8 +48,17 @@ public class TTTwithGUI {
 	private ButtonListener listener = new ButtonListener();// action listener
 															// for the buttons
 
+	// check to see if something needs to be repainted
+	private boolean needRepaint;
+
+	public TTTwithGUI() {
+		this.setTitle("Tic Tac Toe");
+	}
+
 	// show that screen for asking questions and getting input
-	public void setToPrintPanel(Container pane, int page) {
+	public void setToPrintPanel(int page) {
+		Container pane = this.getContentPane();
+		pane.removeAll();
 		JPanel pPanel = new JPanel();
 		pPanel.setLayout(new BorderLayout());
 		pPanel.setBackground(Color.WHITE);
@@ -53,15 +72,17 @@ public class TTTwithGUI {
 		case 1:// Page 1 = Introduction
 			text.setText("Let's play some Tic Tac Toe!");
 			pPanel.add(text, BorderLayout.CENTER);
+			rightButton.setText("Next");
+			pPanel.add(rightButton, BorderLayout.LINE_END);
 			break;
 
 		case 2: // Page 2 = Ask whether the player wants to go first or not
-			text.setText("Do you want to be X or O?\n(Note: X goes first)");
+			text.setText("Do you want to be O or X?\n(Note: O goes first)");
 			pPanel.add(text, BorderLayout.PAGE_START);
-			leftButton.setText("X");
-			rightButton.setText("O");
+			leftButton.setText("O");
+			rightButton.setText("X");
 			pPanel.add(leftButton, BorderLayout.LINE_START);
-			pPanel.add(leftButton, BorderLayout.LINE_END);
+			pPanel.add(rightButton, BorderLayout.LINE_END);
 			break;
 
 		case 3:// Page 3 = Winning results
@@ -93,12 +114,12 @@ public class TTTwithGUI {
 			pPanel.add(text, BorderLayout.CENTER);
 			break;
 		}
-		pane.removeAll();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 		pane.add(pPanel);
 	}
 
-	public void setToGameMap(Container pane) {// shows the game map
+	public void setToGameMap() {// shows the game map
+		Container pane = this.getContentPane();
 		pane.removeAll();
 		JPanel gmPanel = new JPanel();
 		gmPanel.add(printScore());
@@ -258,21 +279,40 @@ public class TTTwithGUI {
 		}
 	}
 
+	public boolean isNeedRepaint() {
+		return this.needRepaint;
+	}
+
+	public void setNeedRepaint(boolean arg0) {
+		this.needRepaint = arg0;
+	}
+
+	public void paintGUI() {
+		if (mode == 0) {
+			setToGameMap();
+		} else {
+			setToPrintPanel(mode);
+		}
+	}
+
 	class ButtonListener implements ActionListener {
+
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// X also means Yes
-			// O also means No
+			// O also means Yes
+			// X also means No
 			if (arg0.getSource() == leftButton) {
-				playerMark = 'X';
-				compMark = 'O';
-			} else if (arg0.getSource() == rightButton) {
 				playerMark = 'O';
 				compMark = 'X';
-			} else {
+			} else if (arg0.getSource() == rightButton) {
+				playerMark = 'X';
+				compMark = 'O';
+			} else {// clicking on an empty space button results in this
+				playerMark = 'X';
 				mark(playerMark, Integer.parseInt(((JButton) arg0.getSource())
 						.getName()));
 			}
+			setNeedRepaint(true);
 		}
 	}
 }
