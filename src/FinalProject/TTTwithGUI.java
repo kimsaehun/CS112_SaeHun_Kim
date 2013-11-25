@@ -30,12 +30,12 @@ public class TTTwithGUI extends JFrame {
 	final int WIN = 3;
 	final int LOSE = 4;
 	final int TIE = 5;
-	final int ASK_PLAY = 6;
+	final int REPLAY = 6;
 	final int END = 7;
 
 	private char[][] map = { { 's', '|', 's', '|', 's' },
 			{ 's', '|', 's', '|', 's' }, { 's', '|', 's', '|', 's' } };
-	private int round = 0, playerScore = 0, compScore = 0;
+	private int round = 1, playerScore = 0, compScore = 0;
 	// arraylist to hold the coordinates of open spaces in the tic tac toe map
 	private ArrayList<Integer> availableMoves = new ArrayList<Integer>();
 	private char playerMark, compMark;
@@ -49,34 +49,63 @@ public class TTTwithGUI extends JFrame {
 															// for the buttons
 
 	// check to see if something needs to be repainted
-	private boolean needRepaint;
+	private boolean needRepaint, movesFirst;
 
-	public TTTwithGUI() {
-		this.setTitle("Tic Tac Toe");
+	private Container pane;
+	private JFrame frame;
+
+	public TTTwithGUI(JFrame f) {
+		frame = f;
+		pane = frame.getContentPane();
+		needRepaint = true;
+		mode = INTRO;
+	}
+
+	public void paintGUI() {
+		System.out.println("paintGUI  " + mode);
+		if (mode == GAME) {
+			// if the player doesn't move first, make the computer move so that
+			// its
+			// move is shown from the start
+			if (!movesFirst) {
+				makeCompMove();
+			}
+			setToGameMap();
+			if (movesFirst) {
+				makeCompMove();
+			}
+		} else {
+			setToPrintPanel(mode);
+		}
+		pane.validate();
+		pane.repaint();
+		frame.pack();
+		// System.out.println(frame.getHeight() + "  " + frame.getWidth() + "  "
+		// + mode);
 	}
 
 	// show that screen for asking questions and getting input
 	public void setToPrintPanel(int page) {
-		Container pane = this.getContentPane();
+		System.out.println("setToPrintPanel  " + mode);
 		pane.removeAll();
 		JPanel pPanel = new JPanel();
 		pPanel.setLayout(new BorderLayout());
 		pPanel.setBackground(Color.WHITE);
-
 		JTextArea text = new JTextArea();
 
 		leftButton.addActionListener(listener);
 		rightButton.addActionListener(listener);
 
 		switch (page) {
-		case 1:// Page 1 = Introduction
+		case INTRO:// Page 1 = Introduction
 			text.setText("Let's play some Tic Tac Toe!");
-			pPanel.add(text, BorderLayout.CENTER);
-			rightButton.setText("Next");
-			pPanel.add(rightButton, BorderLayout.LINE_END);
+			pPanel.add(text, BorderLayout.PAGE_START);
+			leftButton.setText("Next");
+			pPanel.add(leftButton, BorderLayout.LINE_END);
 			break;
 
-		case 2: // Page 2 = Ask whether the player wants to go first or not
+		case ASK_MARK: // Page 2 = Ask whether the player wants to go first or
+						// not
 			text.setText("Do you want to be O or X?\n(Note: O goes first)");
 			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("O");
@@ -85,32 +114,43 @@ public class TTTwithGUI extends JFrame {
 			pPanel.add(rightButton, BorderLayout.LINE_END);
 			break;
 
-		case 3:// Page 3 = Winning results
+		case WIN:// Page 3 = Winning resultsJPanel gmPanel = new JPanel();
 			text.setText("Great Job! You Won!");
-			pPanel.add(text, BorderLayout.CENTER);
+			pPanel.add(text, BorderLayout.PAGE_START);
+			leftButton.setText("Next");
+			pPanel.add(leftButton, BorderLayout.LINE_END);
+			pPanel.add(printMap());
 			break;
 
-		case 4:// Page 4 = Losing results
+		case LOSE:// Page 4 = Losing results
 			text.setText("Sorry but you lost! The computer beat you!");
-			pPanel.add(text, BorderLayout.CENTER);
+			pPanel.add(text, BorderLayout.PAGE_START);
+			leftButton.setText("Next");
+			pPanel.add(leftButton, BorderLayout.LINE_END);
+			pPanel.add(printMap());
 			break;
 
-		case 5:// Page 5 = Tie results
+		case TIE:// Page 5 = Tie results
 			text.setText("It's a cat's game! No one won!");
-			pPanel.add(text, BorderLayout.CENTER);
+			pPanel.add(text, BorderLayout.PAGE_START);
+			leftButton.setText("Next");
+			pPanel.add(leftButton, BorderLayout.LINE_END);
+			pPanel.add(printMap());
 			break;
 
-		case 6:// Page 6 = Ask to play again
+		case REPLAY:// Page 6 = Ask to play again
 			text.setText("Do you want to play again? ");
 			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("Yes");
 			rightButton.setText("No");
 			pPanel.add(leftButton, BorderLayout.LINE_START);
-			pPanel.add(leftButton, BorderLayout.LINE_END);
+			pPanel.add(rightButton, BorderLayout.LINE_END);
 			break;
 
-		case 7:// Page 7 = Closure
-			text.setText("All right then, we'll see you next time!");
+		case END:// Page 7 = Closure
+			text.setText("All right then, Here are the scores.\n"
+					+ "Rounds Played: " + round + "\nPlayer Wins: "
+					+ playerScore + "\nComputer Wins: " + compScore);
 			pPanel.add(text, BorderLayout.CENTER);
 			break;
 		}
@@ -119,7 +159,7 @@ public class TTTwithGUI extends JFrame {
 	}
 
 	public void setToGameMap() {// shows the game map
-		Container pane = this.getContentPane();
+		System.out.println("setToGameMap  " + mode);
 		pane.removeAll();
 		JPanel gmPanel = new JPanel();
 		gmPanel.add(printScore());
@@ -129,6 +169,7 @@ public class TTTwithGUI extends JFrame {
 
 	// method made private because only this class will use it
 	private JPanel printScore() {// prints score
+		System.out.println("printScore  " + mode);
 		JPanel sPanel = new JPanel();
 		sPanel.setLayout(new GridBagLayout());
 		sPanel.setBackground(Color.WHITE);
@@ -144,6 +185,7 @@ public class TTTwithGUI extends JFrame {
 
 	// method made private because only this class will use it
 	private JPanel printMap() {// prints the map
+		System.out.println("printmap  " + mode);
 		JPanel gPanel = new JPanel();
 		gPanel.setBackground(Color.WHITE);
 		gPanel.setLayout(new GridBagLayout());
@@ -191,24 +233,18 @@ public class TTTwithGUI extends JFrame {
 		return gPanel;
 	}
 
-	public char getPlayerMark() {
-		return playerMark;
-	}
-
-	public char getCompMark() {
-		return compMark;
-	}
-
 	public void mark(char mark, int coord) {
+		System.out.println("mark  " + mode);
 		// the x value would be the column and the y value would be the row
 		int col = coord / 10;// the x value
 		int row = coord - (col * 10);// the y value
 		map[row][col] = mark;
 	}
 
-	public void makeCompMove(char mark) {// makes the computer's move by
-		// randomly selecting an available
-		// space
+	public void makeCompMove() {// makes the computer's move by randomly
+								// selecting an available space
+
+		System.out.println("akeCompMove  " + mode);
 		for (int row = 0; row < 3; row++) {
 			for (int col = 0; col < 5; col++) {
 				if (map[row][col] == 's') {
@@ -225,24 +261,18 @@ public class TTTwithGUI extends JFrame {
 		// growing
 	}
 
-	public char checkWin() {// check to see if anyone won or if its a tie
-		for (int row = 0; row < 3; row++) {
-			for (int col = 0; col < 5; col++) {
-				if (map[row][col] == 's') {
-					availableMoves.add(col * 10 + row);
-				}
-			}
-		}
-		if (availableMoves.size() == 0) {
-			// checks for a cats game(tie)
-			return 't';
-		}
-		availableMoves.clear();// clear the arrayList or it will keep on growing
+	public void checkWin() {// check to see if anyone won or if its a tie
+
+		System.out.println("checkWIN   " + mode);
 		for (int row = 0; row < 3; row++) {
 			if (map[row][0] == map[row][2] && map[row][2] == map[row][4]) {
 				if (map[row][0] != 's') {
 					// checks if there are 3 of the same marks in a single row
-					return map[row][0];
+					if (map[row][0] == playerMark) {
+						mode = WIN;
+					} else if (map[row][0] == compMark) {
+						mode = LOSE;
+					}
 				}
 			}
 		}
@@ -252,26 +282,52 @@ public class TTTwithGUI extends JFrame {
 				// column
 				if (map[0][col] != 's') {
 					// checks if there are 3 of the same marks in a single row
-					return map[0][col];
+					if (map[0][col] == playerMark) {
+						mode = WIN;
+					} else if (map[0][col] == compMark) {
+						mode = LOSE;
+					}
 				}
 			}
 		}
 		if (map[1][2] == map[0][0] && map[1][2] == map[2][4]) {
 			// checks \ diagonal
 			if (map[1][2] != 's') {
-				return map[1][2];
+				if (map[1][2] == playerMark) {
+					mode = WIN;
+				} else if (map[1][2] == compMark) {
+					mode = LOSE;
+				}
 			}
 		}
 		if (map[1][2] == map[0][4] && map[1][2] == map[2][0]) {
 			// checks / diagonal
 			if (map[1][2] != 's') {
-				return map[1][2];
+				if (map[1][2] == playerMark) {
+					mode = WIN;
+				} else if (map[1][2] == compMark) {
+					mode = LOSE;
+				}
 			}
 		}
-		return 'z';
+
+		for (int row = 0; row < 3; row++) {
+			for (int col = 0; col < 5; col++) {
+				if (map[row][col] == 's') {
+					availableMoves.add(col * 10 + row);
+				}
+			}
+		}
+		if (availableMoves.size() == 0) {
+			// checks for a cats game(tie)
+			mode = TIE;
+		}
+		availableMoves.clear();// clear the arrayList or it will keep on growing
 	}
 
-	public void mapClear() {// clears the map or a new game
+	public void clearMap() {// clears the map or a new game
+
+		System.out.println("clear map  " + mode);
 		for (int row = 0; row < 3; row++) {
 			for (int col = 0; col < 5; col += 2) {
 				map[row][col] = 's';
@@ -279,40 +335,50 @@ public class TTTwithGUI extends JFrame {
 		}
 	}
 
-	public boolean isNeedRepaint() {
-		return this.needRepaint;
-	}
-
-	public void setNeedRepaint(boolean arg0) {
-		this.needRepaint = arg0;
-	}
-
-	public void paintGUI() {
-		if (mode == 0) {
-			setToGameMap();
-		} else {
-			setToPrintPanel(mode);
-		}
-	}
-
 	class ButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// O also means Yes
-			// X also means No
+			System.out.println("actionPerformed    " + mode);
+			// LeftButton is Yes or O
+			// RightButton is No or X
 			if (arg0.getSource() == leftButton) {
-				playerMark = 'O';
-				compMark = 'X';
+				if (mode == INTRO) {
+					mode = ASK_MARK;
+				} else if (mode == ASK_MARK) {
+					playerMark = 'O';
+					movesFirst = true;
+					compMark = 'X';
+					mode = GAME;
+				} else if (mode == WIN || mode == LOSE || mode == TIE) {
+					mode = REPLAY;
+				} else if (mode == REPLAY) {
+					round++;
+					mode = ASK_MARK;
+					clearMap();
+				}
 			} else if (arg0.getSource() == rightButton) {
-				playerMark = 'X';
-				compMark = 'O';
-			} else {// clicking on an empty space button results in this
-				playerMark = 'X';
+				if (mode == ASK_MARK) {
+					playerMark = 'X';
+					movesFirst = false;
+					compMark = 'O';
+					mode = GAME;
+				} else if (mode == REPLAY) {
+					mode = END;
+				}
+			} else {// clicking on an empty space button on the game map results
+					// in this
 				mark(playerMark, Integer.parseInt(((JButton) arg0.getSource())
 						.getName()));
+				checkWin();
+				if (mode == WIN) {
+					playerScore++;
+				} else if (mode == LOSE) {
+					compScore++;
+				}
 			}
-			setNeedRepaint(true);
+			// System.out.println(mode + " e fe");
+			paintGUI();
 		}
 	}
 }
