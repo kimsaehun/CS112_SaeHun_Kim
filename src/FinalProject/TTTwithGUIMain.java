@@ -24,5 +24,6 @@ public class TTTwithGUIMain {
 		game.paintGUI();
 		frame.pack();
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 	}
 }
