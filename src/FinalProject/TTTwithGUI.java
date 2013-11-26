@@ -61,7 +61,6 @@ public class TTTwithGUI extends JFrame {
 	}
 
 	public void paintGUI() {
-		System.out.println("paintGUI  " + mode);
 		if (mode == GAME) {
 			// if the player doesn't move first, make the computer move so and
 			// then set moveFirst to false. Computer moves will be made in the
@@ -74,16 +73,11 @@ public class TTTwithGUI extends JFrame {
 		} else {
 			setToPrintPanel(mode);
 		}
-		// pane.validate();
-		// pane.repaint();
 		frame.pack();
-		// System.out.println(frame.getHeight() + "  " + frame.getWidth() + "  "
-		// );
 	}
 
 	// show that screen for asking questions and getting input
 	public void setToPrintPanel(int page) {
-		System.out.println("setToPrintPanel  " + page + "     " + mode);
 		pane.removeAll();
 		JPanel pPanel = new JPanel();
 		pPanel.setLayout(new BorderLayout());
@@ -163,7 +157,6 @@ public class TTTwithGUI extends JFrame {
 	}
 
 	public void setToGameMap() {// shows the game map
-		System.out.println("setToGameMap  " + mode);
 		pane.removeAll();
 		JPanel gmPanel = new JPanel();
 		gmPanel.add(printScore());
@@ -171,9 +164,7 @@ public class TTTwithGUI extends JFrame {
 		pane.add(gmPanel);
 	}
 
-	// method made private because only this class will use it
-	private JPanel printScore() {// prints score
-		System.out.println("printScore  " + mode);
+	public JPanel printScore() {// prints score
 		JPanel sPanel = new JPanel();
 		sPanel.setLayout(new GridBagLayout());
 		sPanel.setBackground(Color.WHITE);
@@ -187,9 +178,7 @@ public class TTTwithGUI extends JFrame {
 		return sPanel;
 	}
 
-	// method made private because only this class will use it
-	private JPanel printMap() {// prints the map
-		System.out.println("printmap  " + mode);
+	public JPanel printMap() {// prints the map
 		JPanel gPanel = new JPanel();
 		gPanel.setBackground(Color.WHITE);
 		gPanel.setLayout(new GridBagLayout());
@@ -238,7 +227,6 @@ public class TTTwithGUI extends JFrame {
 	}
 
 	public void mark(char mark, int coord) {
-		System.out.println("mark  " + mode);
 		// the x value would be the column and the y value would be the row
 		int col = coord / 10;// the x value
 		int row = coord - (col * 10);// the y value
@@ -247,8 +235,6 @@ public class TTTwithGUI extends JFrame {
 
 	public void makeCompMove() {// makes the computer's move by randomly
 								// selecting an available space
-
-		System.out.println("makeCompMove  " + mode);
 		for (int row = 0; row < 3; row++) {
 			for (int col = 0; col < 5; col++) {
 				if (map[row][col] == 's') {
@@ -266,8 +252,6 @@ public class TTTwithGUI extends JFrame {
 	}
 
 	public void checkWin() {// check to see if anyone won or if its a tie
-
-		System.out.println("checkWIN   " + mode);
 		for (int row = 0; row < 3; row++) {
 			if (map[row][0] == map[row][2] && map[row][2] == map[row][4]) {
 				if (map[row][0] != 's') {
@@ -330,8 +314,6 @@ public class TTTwithGUI extends JFrame {
 	}
 
 	public void clearMap() {// clears the map or a new game
-
-		System.out.println("clear map  " + mode);
 		for (int row = 0; row < 3; row++) {
 			for (int col = 0; col < 5; col += 2) {
 				map[row][col] = 's';
@@ -343,10 +325,6 @@ public class TTTwithGUI extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			System.out
-					.println("******************* actionPerformed    " + mode);
-			System.out.println("Count of listeners: "
-					+ ((JButton) arg0.getSource()).getActionListeners().length);
 			// LeftButton is Yes or O or Next
 			// RightButton is No or X
 			if (arg0.getSource() == leftButton) {
