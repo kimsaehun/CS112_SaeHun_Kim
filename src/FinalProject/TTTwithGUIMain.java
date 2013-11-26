@@ -6,10 +6,7 @@
 
 package FinalProject;
 
-import java.awt.Color;
-
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 public class TTTwithGUIMain {
 	public static void main(String[] args) {

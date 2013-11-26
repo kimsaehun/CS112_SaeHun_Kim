@@ -49,7 +49,7 @@ public class TTTwithGUI extends JFrame {
 															// for the buttons
 
 	// check to see if something needs to be repainted
-	private boolean needRepaint, movesFirst;
+	private boolean movesFirst;
 
 	private Container pane;
 	private JFrame frame;
@@ -57,92 +57,95 @@ public class TTTwithGUI extends JFrame {
 	public TTTwithGUI(JFrame f) {
 		frame = f;
 		pane = frame.getContentPane();
-		needRepaint = true;
 		mode = INTRO;
 	}
 
 	public void paintGUI() {
 		System.out.println("paintGUI  " + mode);
 		if (mode == GAME) {
-			// if the player doesn't move first, make the computer move so that
-			// its
-			// move is shown from the start
+			// if the player doesn't move first, make the computer move so and
+			// then set moveFirst to false. Computer moves will be made in the
+			// actionPerformed method
 			if (!movesFirst) {
 				makeCompMove();
+				movesFirst = true;
 			}
 			setToGameMap();
-			if (movesFirst) {
-				makeCompMove();
-			}
 		} else {
 			setToPrintPanel(mode);
 		}
-		pane.validate();
-		pane.repaint();
+		// pane.validate();
+		// pane.repaint();
 		frame.pack();
 		// System.out.println(frame.getHeight() + "  " + frame.getWidth() + "  "
-		// + mode);
+		// );
 	}
 
 	// show that screen for asking questions and getting input
 	public void setToPrintPanel(int page) {
-		System.out.println("setToPrintPanel  " + mode);
+		System.out.println("setToPrintPanel  " + page + "     " + mode);
 		pane.removeAll();
 		JPanel pPanel = new JPanel();
 		pPanel.setLayout(new BorderLayout());
 		pPanel.setBackground(Color.WHITE);
 		JTextArea text = new JTextArea();
 
-		leftButton.addActionListener(listener);
-		rightButton.addActionListener(listener);
+		// the if statements are necessary because multiple listeners would be
+		// added every time this method was called
+		if (leftButton.getActionListeners().length < 1) {
+			leftButton.addActionListener(listener);
+		}
+		if (rightButton.getActionListeners().length < 1) {
+			rightButton.addActionListener(listener);
+		}
 
 		switch (page) {
 		case INTRO:// Page 1 = Introduction
 			text.setText("Let's play some Tic Tac Toe!");
-			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("Next");
+			pPanel.add(text, BorderLayout.PAGE_START);
 			pPanel.add(leftButton, BorderLayout.LINE_END);
 			break;
 
 		case ASK_MARK: // Page 2 = Ask whether the player wants to go first or
 						// not
 			text.setText("Do you want to be O or X?\n(Note: O goes first)");
-			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("O");
 			rightButton.setText("X");
+			pPanel.add(text, BorderLayout.PAGE_START);
 			pPanel.add(leftButton, BorderLayout.LINE_START);
 			pPanel.add(rightButton, BorderLayout.LINE_END);
 			break;
 
 		case WIN:// Page 3 = Winning resultsJPanel gmPanel = new JPanel();
 			text.setText("Great Job! You Won!");
-			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("Next");
+			pPanel.add(text, BorderLayout.PAGE_START);
 			pPanel.add(leftButton, BorderLayout.LINE_END);
 			pPanel.add(printMap());
 			break;
 
 		case LOSE:// Page 4 = Losing results
 			text.setText("Sorry but you lost! The computer beat you!");
-			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("Next");
+			pPanel.add(text, BorderLayout.PAGE_START);
 			pPanel.add(leftButton, BorderLayout.LINE_END);
 			pPanel.add(printMap());
 			break;
 
 		case TIE:// Page 5 = Tie results
 			text.setText("It's a cat's game! No one won!");
-			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("Next");
+			pPanel.add(text, BorderLayout.PAGE_START);
 			pPanel.add(leftButton, BorderLayout.LINE_END);
 			pPanel.add(printMap());
 			break;
 
 		case REPLAY:// Page 6 = Ask to play again
 			text.setText("Do you want to play again? ");
-			pPanel.add(text, BorderLayout.PAGE_START);
 			leftButton.setText("Yes");
 			rightButton.setText("No");
+			pPanel.add(text, BorderLayout.PAGE_START);
 			pPanel.add(leftButton, BorderLayout.LINE_START);
 			pPanel.add(rightButton, BorderLayout.LINE_END);
 			break;
@@ -150,7 +153,8 @@ public class TTTwithGUI extends JFrame {
 		case END:// Page 7 = Closure
 			text.setText("All right then, Here are the scores.\n"
 					+ "Rounds Played: " + round + "\nPlayer Wins: "
-					+ playerScore + "\nComputer Wins: " + compScore);
+					+ playerScore + "\nComputer Wins: " + compScore
+					+ "\nExit the window to close.");
 			pPanel.add(text, BorderLayout.CENTER);
 			break;
 		}
@@ -244,7 +248,7 @@ public class TTTwithGUI extends JFrame {
 	public void makeCompMove() {// makes the computer's move by randomly
 								// selecting an available space
 
-		System.out.println("akeCompMove  " + mode);
+		System.out.println("makeCompMove  " + mode);
 		for (int row = 0; row < 3; row++) {
 			for (int col = 0; col < 5; col++) {
 				if (map[row][col] == 's') {
@@ -339,8 +343,11 @@ public class TTTwithGUI extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			System.out.println("actionPerformed    " + mode);
-			// LeftButton is Yes or O
+			System.out
+					.println("******************* actionPerformed    " + mode);
+			System.out.println("Count of listeners: "
+					+ ((JButton) arg0.getSource()).getActionListeners().length);
+			// LeftButton is Yes or O or Next
 			// RightButton is No or X
 			if (arg0.getSource() == leftButton) {
 				if (mode == INTRO) {
@@ -351,6 +358,11 @@ public class TTTwithGUI extends JFrame {
 					compMark = 'X';
 					mode = GAME;
 				} else if (mode == WIN || mode == LOSE || mode == TIE) {
+					if (mode == WIN) {
+						playerScore++;
+					} else if (mode == LOSE) {
+						compScore++;
+					}
 					mode = REPLAY;
 				} else if (mode == REPLAY) {
 					round++;
@@ -367,17 +379,13 @@ public class TTTwithGUI extends JFrame {
 					mode = END;
 				}
 			} else {// clicking on an empty space button on the game map results
-					// in this
+					// in this. After Making a move, the computer will make a
+					// move.
 				mark(playerMark, Integer.parseInt(((JButton) arg0.getSource())
 						.getName()));
+				makeCompMove();
 				checkWin();
-				if (mode == WIN) {
-					playerScore++;
-				} else if (mode == LOSE) {
-					compScore++;
-				}
 			}
-			// System.out.println(mode + " e fe");
 			paintGUI();
 		}
 	}

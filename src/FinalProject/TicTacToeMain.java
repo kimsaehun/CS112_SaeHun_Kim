@@ -83,7 +83,8 @@ public class TicTacToeMain {
 						game.increment(COMPSCORE);
 					} else if (result == 't') {
 						inRound = false;
-					} else {// if the computer win the player gets to play
+					} else {// if the computer didn't win the player gets to
+							// play
 						System.out.print("Enter the coordinates of your move\n"
 								+ "(example: (1,2) for the upper middle "
 								+ "box and (1,3) for the lower left box): ");
