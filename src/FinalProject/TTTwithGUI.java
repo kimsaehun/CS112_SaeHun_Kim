@@ -213,10 +213,14 @@ public class TTTwithGUI extends JFrame {
 				c.gridx = col;
 				c.gridy = row;
 				if (map[row - 1][col - 1] == 's') {
-					spaceButton = new JButton();
-					spaceButton.setName("" + ((col - 1) * 10 + (row - 1)));
-					spaceButton.addActionListener(listener);
-					gPanel.add(spaceButton, c);
+					if (mode == WIN || mode == LOSE || mode == TIE) {
+						gPanel.add(new JTextArea("  "), c);
+					} else {
+						spaceButton = new JButton();
+						spaceButton.setName("" + ((col - 1) * 10 + (row - 1)));
+						spaceButton.addActionListener(listener);
+						gPanel.add(spaceButton, c);
+					}
 				} else {
 					gPanel.add(
 							new JTextArea(" " + map[row - 1][col - 1] + " "), c);
