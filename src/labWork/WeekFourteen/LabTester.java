@@ -1,19 +1,24 @@
 /*
  * Sae Hun Kim
  * Week 14 lab tester
+ * and lab 2
  */
 
 package labWork.WeekFourteen;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class LabTester {
 	public static void main(String[] args) {
-		Dice d1 = new Dice("Dice 1");
-		Dice d2 = new Dice("Dice 2");
-		for (int i = 0; i < 25; i++) {
-			Thread t1 = new Thread(d1);
-			Thread t2 = new Thread(d2);
-			t1.start();
-			t2.start();
-		}
+		System.out.println("Main thread started.");
+		Dice d1 = new Dice("Dice 1", 25);
+		Dice d2 = new Dice("Dice 2", 25);
+
+		ExecutorService tE = Executors.newCachedThreadPool();
+		tE.execute(d1);
+		tE.execute(d2);
+		tE.shutdown();
+		System.out.println("Main is done.");
 	}
 }

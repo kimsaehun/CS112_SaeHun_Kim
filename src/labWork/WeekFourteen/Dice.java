@@ -1,17 +1,18 @@
 /*
  * Sae Hun Kim
- * Week 14 lab 1
+ * Week 14 lab 1 and lab 2
  * 22
  */
 
 package labWork.WeekFourteen;
 
 public class Dice implements Runnable {
-	int value;
+	int value, numRolls;
 	String name;
 
-	public Dice(String arg0) {
+	public Dice(String arg0, int num) {
 		name = arg0;
+		numRolls = num;
 	}
 
 	public int roll() {
@@ -25,7 +26,12 @@ public class Dice implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println(name + " rolled a " + this.roll());
+		System.out.println(name + " will roll " + numRolls + "times.");
+		for (int i = 0; i < numRolls; i++) {
+			System.out.println("Roll #" + (i + 1) + " for " + name + " is "
+					+ this.roll());
+		}
+		System.out.println(name + " finished rolling.");
 	}
 
 }
