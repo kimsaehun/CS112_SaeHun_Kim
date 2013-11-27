@@ -1,6 +1,6 @@
 /*
  * Sae Hun Kim
- * Week 14 lab 1 and lab 2
+ * Week 14 lab 1 and lab 2 and lab 3
  * 22
  */
 
@@ -15,7 +15,7 @@ public class Dice implements Runnable {
 		numRolls = num;
 	}
 
-	public int roll() {
+	public synchronized int roll() {
 		value = (int) ((Math.random() * 6) + 1);
 		return value;
 	}
@@ -28,10 +28,13 @@ public class Dice implements Runnable {
 	public void run() {
 		System.out.println(name + " will roll " + numRolls + "times.");
 		for (int i = 0; i < numRolls; i++) {
-			System.out.println("Roll #" + (i + 1) + " for " + name + " is "
+			System.out.println("Roll #" + (i + 1) + " for "
+					+ Thread.currentThread().getName() + " " + name + " is "
 					+ this.roll());
+			this.roll();
 		}
-		System.out.println(name + " finished rolling.");
+		System.out.println(Thread.currentThread().getName() + " " + name
+				+ " finished rolling.");
 	}
 
 }
