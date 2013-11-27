@@ -258,13 +258,11 @@ public class TTTwithGUI extends JFrame {
 	public void checkWin() {// check to see if anyone won or if its a tie
 		for (int row = 0; row < 3; row++) {
 			if (map[row][0] == map[row][2] && map[row][2] == map[row][4]) {
-				if (map[row][0] != 's') {
-					// checks if there are 3 of the same marks in a single row
-					if (map[row][0] == playerMark) {
-						mode = WIN;
-					} else if (map[row][0] == compMark) {
-						mode = LOSE;
-					}
+				// checks if there are 3 of the same marks in a single row
+				if (map[row][0] == playerMark) {
+					mode = WIN;
+				} else if (map[row][0] == compMark) {
+					mode = LOSE;
 				}
 			}
 		}
@@ -272,34 +270,28 @@ public class TTTwithGUI extends JFrame {
 			if (map[0][col] == map[1][col] && map[1][col] == map[2][col]) {
 				// checks if there are 3 of the same marks in a single
 				// column
-				if (map[0][col] != 's') {
-					// checks if there are 3 of the same marks in a single row
-					if (map[0][col] == playerMark) {
-						mode = WIN;
-					} else if (map[0][col] == compMark) {
-						mode = LOSE;
-					}
+				// checks if there are 3 of the same marks in a single row
+				if (map[0][col] == playerMark) {
+					mode = WIN;
+				} else if (map[0][col] == compMark) {
+					mode = LOSE;
 				}
 			}
 		}
 		if (map[1][2] == map[0][0] && map[1][2] == map[2][4]) {
 			// checks \ diagonal
-			if (map[1][2] != 's') {
-				if (map[1][2] == playerMark) {
-					mode = WIN;
-				} else if (map[1][2] == compMark) {
-					mode = LOSE;
-				}
+			if (map[1][2] == playerMark) {
+				mode = WIN;
+			} else if (map[1][2] == compMark) {
+				mode = LOSE;
 			}
 		}
 		if (map[1][2] == map[0][4] && map[1][2] == map[2][0]) {
 			// checks / diagonal
-			if (map[1][2] != 's') {
-				if (map[1][2] == playerMark) {
-					mode = WIN;
-				} else if (map[1][2] == compMark) {
-					mode = LOSE;
-				}
+			if (map[1][2] == playerMark) {
+				mode = WIN;
+			} else if (map[1][2] == compMark) {
+				mode = LOSE;
 			}
 		}
 
@@ -365,8 +357,11 @@ public class TTTwithGUI extends JFrame {
 					// move.
 				mark(playerMark, Integer.parseInt(((JButton) arg0.getSource())
 						.getName()));
-				makeCompMove();
 				checkWin();
+				if (mode == GAME) {
+					makeCompMove();
+					checkWin();
+				}
 			}
 			paintGUI();
 		}
