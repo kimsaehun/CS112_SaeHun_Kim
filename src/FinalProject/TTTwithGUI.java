@@ -270,7 +270,6 @@ public class TTTwithGUI extends JFrame {
 			if (map[0][col] == map[1][col] && map[1][col] == map[2][col]) {
 				// checks if there are 3 of the same marks in a single
 				// column
-				// checks if there are 3 of the same marks in a single row
 				if (map[0][col] == playerMark) {
 					mode = WIN;
 				} else if (map[0][col] == compMark) {
@@ -304,7 +303,9 @@ public class TTTwithGUI extends JFrame {
 		}
 		if (availableMoves.size() == 0) {
 			// checks for a cats game(tie)
-			mode = TIE;
+			if (mode != WIN && mode != LOSE) {
+				mode = TIE;
+			}
 		}
 		availableMoves.clear();// clear the arrayList or it will keep on growing
 	}
