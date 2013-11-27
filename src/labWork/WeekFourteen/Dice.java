@@ -45,7 +45,7 @@ public class Dice implements Runnable {
 					+ this.roll());
 		}
 		System.out.println(Thread.currentThread().getName() + " " + name
-				+ " finished rolling.");
+				+ " has ended.");
 	}
 
 }
