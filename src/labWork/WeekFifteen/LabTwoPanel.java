@@ -5,7 +5,7 @@
 
 package labWork.WeekFifteen;
 
-import java.awt.Button;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -29,6 +29,10 @@ public class LabTwoPanel extends JPanel {
 		g.drawString("Frame!", cx, cy);
 		g.draw3DRect(20, 20, 15, 24, true);
 		g.drawOval(0, 120, 18, 23);
+		g.setColor(Color.BLUE);
+		g.fill3DRect(36, 45, 15, 24, true);
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(0, 0, 10, 123);
 	} // paintComponent
 
 	// =============================================
