@@ -33,6 +33,10 @@ public class LabTwoPanel extends JPanel {
 		g.fill3DRect(36, 45, 15, 24, true);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, 10, 123);
+		g.setColor(Color.CYAN);
+		int[] r = { 20, 30, 40, 50, 80 };
+		int[] r2 = { 10, 30, 23, 50, 0 };
+		g.fillPolygon(r, r2, 5);
 	} // paintComponent
 
 	// =============================================
