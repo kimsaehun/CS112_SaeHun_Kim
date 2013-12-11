@@ -76,9 +76,9 @@ public class TTTwithGUILogic {
 		if (map[1][2] == map[0][0] && map[1][2] == map[2][4]) {
 			// checks \ diagonal
 			if (map[1][2] == playerMark) {
-				state = WIN;
+				return WIN;
 			} else if (map[1][2] == compMark) {
-				state = LOSE;
+				return LOSE;
 			}
 		}
 		if (map[1][2] == map[0][4] && map[1][2] == map[2][0]) {
@@ -163,6 +163,10 @@ public class TTTwithGUILogic {
 
 	public char getPlayerMark() {
 		return playerMark;
+	}
+
+	public char getCompMark() {
+		return compMark;
 	}
 
 	public void setPlayerMark(char playerMark) {

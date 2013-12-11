@@ -35,6 +35,9 @@ public class TTTwithGUI extends JFrame {
 	final int TIE = 5;
 	final int REPLAY = 6;
 	final int END = 7;
+	final int ASK_PVP = 8;
+	final int PVP_ASK_MARK = 9;
+	final int PVP_RESULTS = 10;
 
 	private JButton leftButton = new JButton();// used for the function
 	private JButton rightButton = new JButton();// setToPrintPanel
@@ -45,7 +48,10 @@ public class TTTwithGUI extends JFrame {
 															// for the buttons
 
 	// check to see if something needs to be repainted
-	private boolean movesFirst;
+	private boolean movesFirst, pvp, p1c2;
+	// p1c2 = true means player 1 goes first
+	// p1c2 = false means player 2 goes first
+	// player 1 is playerMark, player 2 is compMark
 
 	private Container pane;
 	private JFrame frame;
@@ -63,7 +69,7 @@ public class TTTwithGUI extends JFrame {
 			// if the player doesn't move first, make the computer move so and
 			// then set moveFirst to false. Computer moves will be made in the
 			// actionPerformed method
-			if (!movesFirst) {
+			if (!pvp && !movesFirst) {
 				logic.makeCompMove();
 				movesFirst = true;
 			}
@@ -143,12 +149,69 @@ public class TTTwithGUI extends JFrame {
 			break;
 
 		case END:// Page 7 = Closure
-			text.setText("All right then, Here are the scores.\n"
-					+ "Rounds Played: " + logic.getRound() + "\nPlayer Wins: "
-					+ logic.getPlayerScore() + "\nComputer Wins: "
-					+ logic.getCompScore() + "\nNumber of Ties: "
-					+ logic.getTie() + "\nExit the window to close.");
-			pPanel.add(text, BorderLayout.CENTER);
+			if (!pvp) {
+				text.setText("All right then, Here are the scores.\n"
+						+ "Rounds Played: " + logic.getRound()
+						+ "\nPlayer Wins: " + logic.getPlayerScore()
+						+ "\nComputer Wins: " + logic.getCompScore()
+						+ "\nNumber of Ties: " + logic.getTie()
+						+ "\nExit the window to close.");
+				pPanel.add(text, BorderLayout.CENTER);
+			} else {
+				text.setText("All right then, Here are the scores.\n"
+						+ "Rounds Played: " + logic.getRound()
+						+ "\nPlayer 1 Wins: " + logic.getPlayerScore()
+						+ "\nPlayer 2 Wins: " + logic.getCompScore()
+						+ "\nNumber of Ties: " + logic.getTie()
+						+ "\nExit the window to close.");
+				pPanel.add(text, BorderLayout.CENTER);
+			}
+			break;
+		case ASK_PVP:
+			text.setText("Do you want to against a computer or a player?");
+			leftButton.setText("Player");
+			rightButton.setText("Computer");
+			pPanel.add(text, BorderLayout.PAGE_START);
+			pPanel.add(leftButton, BorderLayout.LINE_START);
+			pPanel.add(rightButton, BorderLayout.LINE_END);
+			break;
+		case PVP_ASK_MARK:
+			if ((int) (Math.random() * 2) == 0) {
+				logic.setPlayerMark('O');
+				logic.setCompMark('X');
+				p1c2 = true;
+			} else {
+				logic.setPlayerMark('X');
+				logic.setCompMark('O');
+				p1c2 = false;
+			}
+			if (logic.getPlayerMark() == 'O') {
+				text.setText("Player 1's mark is " + logic.getPlayerMark()
+						+ "\nPlayer 2's mark is " + logic.getCompMark()
+						+ "\nPlayer 1 gets to first!");
+			} else {
+				text.setText("Player 1's mark is " + logic.getPlayerMark()
+						+ "\nPlayer 2's mark is " + logic.getCompMark()
+						+ "\nPlayer 2 gets to first!");
+			}
+			rightButton.setText("Next");
+			pPanel.add(text, BorderLayout.PAGE_START);
+			pPanel.add(rightButton, BorderLayout.LINE_END);
+			break;
+		case PVP_RESULTS:
+			if (!p1c2) {
+				text.setText("Player 1 won!");
+				rightButton.setText("Next");
+				pPanel.add(text, BorderLayout.PAGE_START);
+				pPanel.add(rightButton, BorderLayout.LINE_END);
+				pPanel.add(printMap());
+			} else {
+				text.setText("Player 2 won!");
+				rightButton.setText("Next");
+				pPanel.add(text, BorderLayout.PAGE_START);
+				pPanel.add(rightButton, BorderLayout.LINE_END);
+				pPanel.add(printMap());
+			}
 			break;
 		}
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
@@ -171,9 +234,15 @@ public class TTTwithGUI extends JFrame {
 		c.anchor = GridBagConstraints.CENTER;
 		c.fill = GridBagConstraints.NONE;
 		JTextArea score = new JTextArea();
-		score.setText("          Round " + logic.getRound()
-				+ "\n Player vs Computer" + "\n             "
-				+ logic.getPlayerScore() + " : " + logic.getCompScore());
+		if (!pvp) {
+			score.setText("          Round " + logic.getRound()
+					+ "\n Player vs Computer" + "\n             "
+					+ logic.getPlayerScore() + " : " + logic.getCompScore());
+		} else {
+			score.setText("          Round " + logic.getRound()
+					+ "\n Player 1 vs Player 2" + "\n             "
+					+ logic.getPlayerScore() + " : " + logic.getCompScore());
+		}
 		sPanel.add(score, c);
 		return sPanel;
 	}
@@ -213,7 +282,8 @@ public class TTTwithGUI extends JFrame {
 				c.gridx = col;
 				c.gridy = row;
 				if (logic.getMap()[row - 1][col - 1] == 's') {
-					if (state == WIN || state == LOSE || state == TIE) {
+					if (state == WIN || state == LOSE || state == TIE
+							|| state == PVP_RESULTS) {
 						gPanel.add(new JTextArea("  "), c);
 					} else {
 						spaceButton = new JButton();
@@ -238,17 +308,43 @@ public class TTTwithGUI extends JFrame {
 			// RightButton is No or X
 			switch (state) {
 			case GAME:
-				logic.mark(logic.getPlayerMark(), Integer
-						.parseInt(((JButton) arg0.getSource()).getName()));
-				state = logic.checkWin();
-				if (state == GAME) {
-					logic.makeCompMove();
+				if (!pvp) {
+					logic.mark(logic.getPlayerMark(), Integer
+							.parseInt(((JButton) arg0.getSource()).getName()));
 					state = logic.checkWin();
+					if ((state == GAME)) {
+						logic.makeCompMove();
+						state = logic.checkWin();
+					}
+				} else {
+					if (p1c2) {
+						logic.mark(logic.getPlayerMark(), Integer
+								.parseInt(((JButton) arg0.getSource())
+										.getName()));
+						state = logic.checkWin();
+						p1c2 = false;
+					} else {
+						logic.mark(logic.getCompMark(), Integer
+								.parseInt(((JButton) arg0.getSource())
+										.getName()));
+						state = logic.checkWin();
+						p1c2 = true;
+					}
+					if (state == WIN) {
+						// player 1 won
+						logic.incrementPlayerScore();
+						state = PVP_RESULTS;
+					}
+					if (state == LOSE) {
+						// player 2 won
+						logic.incrementCompScore();
+						state = PVP_RESULTS;
+					}
 				}
 				break;
 			case INTRO:
 				if (arg0.getSource() == rightButton) {
-					state = ASK_MARK;
+					state = ASK_PVP;
 				}
 				break;
 			case ASK_MARK:
@@ -280,16 +376,41 @@ public class TTTwithGUI extends JFrame {
 			case TIE:
 				if (arg0.getSource() == rightButton) {
 					logic.incrementTie();
+					state = REPLAY;
 				}
 				break;
 			case REPLAY:
 				if (arg0.getSource() == leftButton) {
 					logic.incrementRound();
-					state = ASK_MARK;
+					if (!pvp) {
+						state = ASK_MARK;
+					} else {
+						state = PVP_ASK_MARK;
+					}
 					logic.clearMap();
 				}
 				if (arg0.getSource() == rightButton) {
 					state = END;
+				}
+				break;
+			case ASK_PVP:
+				if (arg0.getSource() == leftButton) {
+					pvp = true;
+					state = PVP_ASK_MARK;
+				}
+				if (arg0.getSource() == rightButton) {
+					pvp = false;
+					state = ASK_MARK;
+				}
+				break;
+			case PVP_ASK_MARK:
+				if (arg0.getSource() == rightButton) {
+					state = GAME;
+				}
+				break;
+			case PVP_RESULTS:
+				if (arg0.getSource() == rightButton) {
+					state = REPLAY;
 				}
 				break;
 			}
