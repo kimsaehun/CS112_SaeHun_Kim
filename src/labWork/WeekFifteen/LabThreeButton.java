@@ -7,7 +7,9 @@
 package labWork.WeekFifteen;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -71,7 +73,6 @@ public class LabThreeButton extends JPanel implements ActionListener {
 	private JButton grayButton;
 	private JButton purpleButton;
 	private JButton pinkButton;
-	private JButton silverButton;
 	String[] buttons = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 	public LabThreeButton() {

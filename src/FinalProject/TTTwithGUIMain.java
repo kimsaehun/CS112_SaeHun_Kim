@@ -2,6 +2,7 @@
  * Sae Hun Kim
  * CS 112 Final Project
  * Tic Tac Toe Game with GUI
+ * Main Class
  */
 
 package FinalProject;
