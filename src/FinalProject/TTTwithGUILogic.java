@@ -10,7 +10,6 @@ package FinalProject;
 import java.util.ArrayList;
 
 public class TTTwithGUILogic {
-	private static int state;
 	// list of states
 	final int GAME = 0;
 	final int INTRO = 1;
