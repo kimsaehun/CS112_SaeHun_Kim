@@ -21,6 +21,7 @@ public class LabThreeFrame extends JFrame {
 		// Window Listeners
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
+				System.out.println("FEWFEWFEWF");
 				System.exit(0);
 			} // windowClosing
 		});
